@@ -1,6 +1,12 @@
-// const Controller = require("../controllers/controller");
-const express = require('express')
-const router =  express.Router()
+const Controller = require("../controllers/controller");
+const express = require('express');
+const User = require("./routerUser");
+const Router =  express.Router()
+
+
+
+
+Router.use('/users', User)
 
 
 
@@ -9,7 +15,4 @@ const router =  express.Router()
 
 
 
-
-
-
-module.exports = router
+module.exports = Router
