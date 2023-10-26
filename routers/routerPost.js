@@ -6,7 +6,7 @@ const Post = express.Router()
 
 
 
-
+Post.get('')
 
 
 

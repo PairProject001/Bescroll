@@ -36,7 +36,7 @@ let isAdmin = function(req, res, next){
 
   
 
-Router.get('/', PostController.homePage )
+Router.get('/', PostController.homePage)
 
 
 
