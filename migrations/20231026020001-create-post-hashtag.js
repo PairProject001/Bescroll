@@ -2,27 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('PostHashtags', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING
-      },
-      password: {
-        type: Sequelize.STRING
-      },
-      role: {
-        type: Sequelize.STRING
-      },
-      ProfileId: {
+      PostId: {
         type: Sequelize.INTEGER,
         references : {
           model : {
-            tableName : "Profiles"
+            tableName : "Posts" //table name
+          },
+          key : 'id'
+        }
+      },
+      HashtagId: {
+        type: Sequelize.INTEGER,
+        references : {
+          model : {
+            tableName : "Hashtags" //table name
           },
           key : 'id'
         }
@@ -38,6 +38,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('PostHashtags');
   }
 };
