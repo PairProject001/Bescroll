@@ -96,27 +96,25 @@ class UserController{
             try {
                 const {UserId} = req.params
                 //TAKE DATA FROM USER TABLE
-                const userAndPostData = await User.findOne({
+                const userData = await User.findOne({
                     where: {id: UserId},
                 })
+                console.log("masuk");
                 //TAKE DATA FROM PROFILE TABLE
                 const {ProfileId} = userAndPostData
                 const profileData = await Profile.findOne({
-                    where: {id: ProfileId},
+                    where: {id: ProfileId}
                 })
                 //TAKE DATA FROM POST AND HASHTAG TABLE
                 const postAndHashtag = await Post.findOne({
                     where: {UserId: UserId},
                     include: {
                         model: PostHashtag,
-                        include: {Hashtag}
+                        include: Hashtag
                     }
                 })
-               
-
-
-
-                //res.sender('showProfilePage', {userAndPost})
+                res.send(userData)
+                //res.render('showProfilePage', {userData, profileData, postAndHashtag})
             } catch (error) {
                 res.send(error)
             }
