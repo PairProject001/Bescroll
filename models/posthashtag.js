@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   PostHashtag.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     PostId: DataTypes.INTEGER,
     HashtagId: DataTypes.INTEGER
   }, {

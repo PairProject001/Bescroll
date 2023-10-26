@@ -1,8 +1,8 @@
 'use strict';
-var bcrypt = require('bcryptjs');
 const {
   Model
 } = require('sequelize');
+const bcrypt = require('bcryptjs')
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Profile, {foreignKey : 'ProfileId'})
+      // define association here
+      this.belongsTo(models.Profile)
+      this.hasMany(models.Post)
     }
   }
   User.init({

@@ -1,4 +1,4 @@
-const { User, Profile } = require('../models')
+const { User, Profile, Post, Hashtag, PostHashtag } = require('../models')
 const bcrypt = require('bcryptjs');
 
 class UserController{
@@ -39,6 +39,7 @@ class UserController{
             res.send(error.message)
         }
     }
+    
     static async formLogin(req, res){
         try {
             // console.log(req.query);
@@ -69,6 +70,8 @@ class UserController{
                     req.session.role = user.role
                     req.session.username = user.username
                     res.redirect('/')
+                 
+                    res.redirect(`/users/${user.id}/showProfilePage`)
                 } else {
                     const err = "Invalid Username Or Password"
                     res.redirect(`/users/login?err=${err}`)
@@ -81,14 +84,14 @@ class UserController{
             res.send(error.message)
         }
     }
-
+    
     static async home(req, res){
         try {
         res.render('home')
         } catch (error) {
         res.send(error)
         }
-    }
+    }   
     static async logOut(req, res){
         try {
             req.session.destroy((err)=>{
@@ -104,6 +107,33 @@ class UserController{
         }
     }
 
+        static async showProfilePage(req, res){
+            try {
+                const {UserId} = req.params
+                //TAKE DATA FROM USER TABLE
+                const userData = await User.findOne({
+                    where: {id: UserId},
+                })
+                console.log("masuk");
+                //TAKE DATA FROM PROFILE TABLE
+                const {ProfileId} = userAndPostData
+                const profileData = await Profile.findOne({
+                    where: {id: ProfileId}
+                })
+                //TAKE DATA FROM POST AND HASHTAG TABLE
+                const postAndHashtag = await Post.findOne({
+                    where: {UserId: UserId},
+                    include: {
+                        model: PostHashtag,
+                        include: Hashtag
+                    }
+                })
+                res.send(userData)
+                //res.render('showProfilePage', {userData, profileData, postAndHashtag})
+            } catch (error) {
+                res.send(error)
+            }
+        }
 }
 
 module.exports = UserController
