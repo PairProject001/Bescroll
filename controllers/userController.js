@@ -39,16 +39,7 @@ class UserController{
             res.send(error.message)
         }
     }
-<<<<<<< HEAD
-
-    static async showProfilePage(req, res){
-        try {
-            res.sender('showProfilePage')
-        } catch (error) {
-            res.send(error)
-        }
-    }
-=======
+    
     static async formLogin(req, res){
         try {
             // console.log(req.query);
@@ -79,7 +70,7 @@ class UserController{
                     req.session.role = user.role
                     req.session.username = user.username
                  
-                    res.redirect('/')
+                    res.redirect(`/users/${user.id}/showProfilePage`)
                 } else {
                     const err = "Invalid Username Or Password"
                     res.redirect(`/users/login?err=${err}`)
@@ -92,15 +83,44 @@ class UserController{
             res.send(error.message)
         }
     }
-
+    
     static async home(req, res){
-     try {
-        res.render('home')
-     } catch (error) {
-        res.send(error)
-     }
+        try {
+            res.render('home')
+        } catch (error) {
+            res.send(error)
+        }
     }
->>>>>>> b341b0fc8151fecb6f8cbb5cdd5d563ca55eb460
+    
+        static async showProfilePage(req, res){
+            try {
+                const {UserId} = req.params
+                //TAKE DATA FROM USER TABLE
+                const userAndPostData = await User.findOne({
+                    where: {id: UserId},
+                })
+                //TAKE DATA FROM PROFILE TABLE
+                const {ProfileId} = userAndPostData
+                const profileData = await Profile.findOne({
+                    where: {id: ProfileId},
+                })
+                //TAKE DATA FROM POST AND HASHTAG TABLE
+                const postAndHashtag = await Post.findOne({
+                    where: {UserId: UserId},
+                    include: {
+                        model: PostHashtag,
+                        include: {Hashtag}
+                    }
+                })
+               
+
+
+
+                //res.sender('showProfilePage', {userAndPost})
+            } catch (error) {
+                res.send(error)
+            }
+        }
 }
 
 module.exports = UserController
