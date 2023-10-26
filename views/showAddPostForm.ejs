@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>BESCROLL</h3>
+    <a href=""><button>Explore Page</button></a>
+    <a href="/users/<%= userId %>/showProfilePage"><button>My Profile Page</button></a>
+    <h1>Add New Posts</h1>
+
+    <form action="/posts/<%=userId%>/addPosts" method="post">
+        <label for="imgUrl">Image</label><br>
+        <input type="text" id="imgUrl" name="imgUrl"><br><br>
+
+        <label for="title">Title</label><br>
+        <input type="text" id="title" name="title"><br><br>
+
+        <label for="content">Content</label><br>
+        <input type="text" id="content" name="content"><br><br>
+
+        <label>Hashtag</label><br>
+        <input type="checkbox"  name="Hashtag" value="1"><label>#holiday</label>
+        <input type="checkbox" name="Hashtag" value="2"><label>#great</label>
+        <input type="checkbox"  name="Hashtag" value="3"><label>#good</label>
+        <br><br>
+
+        <label for="dateOfPost">Date Of Post</label>
+        <input type="date" id="dateOfPost" name="dateOfPost">
+        <br><br>
+
+        <a href=""><button>AddPost</button></a>
+    </form>
+</body>
+</html>

@@ -94,28 +94,31 @@ class UserController{
         }
     }
     
-        static async showProfilePage(req, res){
-            try {
-                const {userId} = req.session
-                //TAKE DATA FROM USER TABLE
-                const userData = await User.findOne({
-                    where: {id: userId}
-                })
-                //TAKE DATA FROM PROFILE TABLE
-                const profileData = await Profile.findOne({
-                    where: {id: userData.ProfileId}
-                })
-                //TAKE DATA FROM POST AND HASHTAG TABLE
-                const postAndHashtag = await Post.findAll({
-                    where: {UserId: userId},
-                    include: { model: Hashtag }
-                })
-
-                res.render('showProfilePage', {userData, profileData, postAndHashtag, changeToRupiahForm})
-            } catch (error) {
-                res.send(error)
-            }
+    static async showProfilePage(req, res){
+        try {
+            const {userId} = req.session
+            //TAKE DATA FROM USER TABLE
+            const userData = await User.findOne({
+                where: {id: userId}
+            })
+            //TAKE DATA FROM PROFILE TABLE
+            const profileData = await Profile.findOne({
+                where: {id: userData.ProfileId}
+            })
+            //TAKE DATA FROM POST AND HASHTAG TABLE
+            const postAndHashtag = await Post.findAll({
+                where: {UserId: userId},
+                include: { 
+                    model: Hashtag,
+                    attributes: ['name']
+                }
+            })
+            res.render('showProfilePage', {userData, profileData, postAndHashtag, changeToRupiahForm})
+        } catch (error) {
+            console.log(error);
+            res.send(error)
         }
+    }
 }
 
 module.exports = UserController

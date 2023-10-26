@@ -8,7 +8,7 @@
 <body>
     <h3>BESCROLL</h3>
     <a href=""><button>Explore Page</button></a>
-    <a href=""><button>My Profile Page</button></a>
+    <a href="/users/<%= userData.id %>/showProfilePage"><button>My Profile Page</button></a>
     <a href=""><button>Edit Profile</button></a>
 
 
@@ -21,9 +21,9 @@
 
     <% if (postAndHashtag.length === 0) { %>
         <h1>NO POST YET</h1>
-        <a href="/users/<%= userData.id %>/addPost"><button>ADD POST</button></a>
+        <a href="/posts/<%= userData.id %>/addPosts"><button>ADD POST</button></a>
     <% } else { %>
-        <a href="/users/<%= userData.id %>/addPost"><button>ADD POST</button></a>
+        <a href="/posts/<%= userData.id %>/addPosts"><button>ADD POST</button></a>
 
         <% postAndHashtag.forEach( (el) => { %>
             <table border="1">
@@ -41,10 +41,13 @@
                 </tr>
                 
                 <tr>
-                <% el.Hashtags.forEach ((each) => {%>
-                    <td><a href=""><button><%= each.name %></button></a></td>
-                <% }) %>
+                    <td>
+                    <% el.Hashtags.forEach ((each) => {%>  
+                        <a href=""><button><%= each.name %></button></a>
+                    <% }) %>
+                    </td>
                 </tr>
+                
         
                 <tr>
                 <td>Date of post: <%= changeToRupiahForm(el.dateOfPost) %></td>
@@ -52,8 +55,8 @@
 
                 <tr>
                     <td>
-                    <a href="/users/<%= userData.id %>/addPost"><button>EDIT POSTS</button></a>
-                    <a href="/users/<%= userData.id %>/addPost"><button>DELETE POSTS</button></a>
+                    <a href="/posts/<%= userData.id %>/editPost"><button>EDIT POSTS</button></a>
+                    <a href="/posts/<%= userData.id %>/deletePost"><button>DELETE POSTS</button></a>
                     </td>
                 </tr>
             </table>

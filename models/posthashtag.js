@@ -20,8 +20,14 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    PostId: DataTypes.INTEGER,
-    HashtagId: DataTypes.INTEGER
+    PostId: {
+      type: DataTypes.INTEGER,
+      unique: false
+    },
+    HashtagId: {
+      type: DataTypes.INTEGER,
+      unique: false
+    }
   }, {
     sequelize,
     modelName: 'PostHashtag',
