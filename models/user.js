@@ -24,5 +24,15 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
+<<<<<<< HEAD
+=======
+  User.beforeCreate((user, options) => {
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(user.password, salt);
+    user.password = hash
+    user.role = 'User'
+  });
+
+>>>>>>> b341b0fc8151fecb6f8cbb5cdd5d563ca55eb460
   return User;
 };
