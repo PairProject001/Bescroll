@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    userName: DataTypes.STRING,
+    username: DataTypes.STRING,
     password: DataTypes.STRING,
     role: DataTypes.STRING,
     ProfileId: DataTypes.INTEGER
@@ -23,14 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
-  User.beforeCreate(async (user, options) => {
+  User.beforeCreate((user, options) => {
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(user.password, salt);
-
     user.password = hash
-  });
-  User.beforeCreate(async (user, options) => {
-    user.role = `User`
+    user.role = 'User'
   });
 
   return User;
