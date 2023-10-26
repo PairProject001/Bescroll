@@ -5,12 +5,30 @@ const User = express.Router()
 
 
 
-User.get('/', UserController.dataUsers)
 User.get('/register', UserController.formRegister)
 User.post('/register', UserController.register)
 User.get('/login', UserController.formLogin)
 User.post('/login', UserController.login)
 User.get('/:UserId/showProfilePage', UserController.showProfilePage)
+
+
+
+
+User.use((req, res, next) => {
+    // console.log(req.session.userId);
+    if (!req.session.userId) {
+        const err = "Please Login First"
+        res.redirect(`/users/login?err=${err}`)
+    } else {
+        console.log("Login Success")
+        next()        
+    }
+})
+
+
+
+User.get('/:UserId/editProfile', UserController.formEditProfile)
+User.post('/:UserId/editProfile', UserController.editProfile)
 
 
 

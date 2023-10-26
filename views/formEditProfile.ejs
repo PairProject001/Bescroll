@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Edit Profile</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,24 +43,25 @@
 </head>
 <body>
     <div style="margin-top: 120px;">
-        <form action="/users/register" method="post" autocomplete="off">
-            <h1>Register</h1>
-            <div class="id">
-                <% err?.forEach(el => { %>
-                    <h6 style=" color: red;"><%= el %></h6>
-                <% }); %>
-            </div>
-            <label for="username">User Name</label>
-            <input type="text" id="username" name="username">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
+        <form action="/users/<%= userId %>/editProfile" method="post" autocomplete="off">
+            <h1>Edit Profile</h1>
+
             <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" name="fullName">
+            <input type="text" id="fullName" name="fullName" value="<%= data.fullName %>">
+
+            <label for="phoneNumber">Phone Number</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" value="<%= data.phoneNumber %>">
+
             <label for="address">Address</label>
-            <input type="text" id="address" name="address">
+            <input type="text" id="address" name="address" value="<%= data.address %>">
+
+            <label for="bio">Bio</label>
+            <input type="text" id="bio" name="bio" value="<%= data.bio %>">
+
             <label for="birthDate">Birth Date</label>
-            <input type="date" id="birthDate" name="birthDate">
-            <button type="submit">Register</button>
+            <input type="date" id="birthDate" name="birthDate" value="<%= data.formattedDate() %>">
+
+            <button type="submit">Update</button>
         </form>
     </div>
 </body>
