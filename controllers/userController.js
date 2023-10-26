@@ -4,20 +4,13 @@ const bcrypt = require('bcryptjs');
 
 
 class UserController{
-    static async dataUsers(req, res){
-        try {
-            const data = await User.findAll({
-                include : Profile
-            })
-            // console.log(data);
-            res.render('dataUsers', {data})
-        } catch (error) {
-            res.send(error)
-        }
-    }
     static async formRegister(req, res){
         try {
-            res.render('formRegister')
+            let err = req.query.err
+            if (err) {
+                err = err.split(',')
+            }
+            res.render('formRegister', {err})
         } catch (error) {
             res.send(error)
         }
@@ -38,7 +31,16 @@ class UserController{
             })
             res.redirect('/users/login')
         } catch (error) {
-            res.send(error.message)
+            // res.send(error)
+            if (error.name === "SequelizeValidationError") {
+                let err = error.errors.map((el)=>{
+                    return el.message
+                })
+                // res.send(err)
+                res.redirect(`/users/register?err=${err}`)
+            }else{
+                res.send(error)
+            }
         }
     }
     
@@ -71,7 +73,7 @@ class UserController{
                     req.session.userId = user.id
                     req.session.role = user.role
                     req.session.username = user.username
-                 
+                    
                     res.redirect(`/users/${req.session.userId}/showProfilePage`)
                 } else {
                     const err = "Invalid Username Or Password"
@@ -86,36 +88,58 @@ class UserController{
         }
     }
     
-    static async home(req, res){
+    static async showProfilePage(req, res){
         try {
-            res.render('home')
+            const {userId} = req.session
+            //TAKE DATA FROM USER TABLE
+            const userData = await User.findOne({
+                where: {id: userId}
+            })
+            //TAKE DATA FROM PROFILE TABLE
+            const profileData = await Profile.findOne({
+                where: {id: userData.ProfileId}
+            })
+            //TAKE DATA FROM POST AND HASHTAG TABLE
+            const postAndHashtag = await Post.findAll({
+                where: {UserId: userId},
+                include: { model: Hashtag }
+            })
+
+            res.render('showProfilePage', {userData, profileData, postAndHashtag, changeToRupiahForm, userId})
         } catch (error) {
             res.send(error)
         }
     }
-    
-        static async showProfilePage(req, res){
-            try {
-                const {userId} = req.session
-                //TAKE DATA FROM USER TABLE
-                const userData = await User.findOne({
-                    where: {id: userId}
-                })
-                //TAKE DATA FROM PROFILE TABLE
-                const profileData = await Profile.findOne({
-                    where: {id: userData.ProfileId}
-                })
-                //TAKE DATA FROM POST AND HASHTAG TABLE
-                const postAndHashtag = await Post.findAll({
-                    where: {UserId: userId},
-                    include: { model: Hashtag }
-                })
-
-                res.render('showProfilePage', {userData, profileData, postAndHashtag, changeToRupiahForm})
-            } catch (error) {
-                res.send(error)
-            }
+    static async formEditProfile(req, res){
+        try {
+            const {userId} = req.session
+            // console.log(userId);
+            const data = await Profile.findByPk(userId)
+            res.render('formEditProfile', {userId, data})
+        } catch (error) {
+            res.send(error.message)   
         }
+    }
+    static async editProfile(req, res){
+        try {
+            const {userId} = req.session
+            const {fullName, phoneNumber, address, bio, birthDate} = req.body
+            await Profile.update({
+                fullName,
+                phoneNumber,
+                address,
+                bio,
+                birthDate
+            },{
+                where : {
+                    id : +userId
+                }
+            })
+            res.redirect(`/users/${userId}/showProfilePage`)
+        } catch (error) {
+            res.send(error.message)   
+        }
+    }
 }
 
 module.exports = UserController
