@@ -34,7 +34,7 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
+
         }
         button:hover {
             background-color: #0056b3;
@@ -43,6 +43,7 @@
 </head>
 <body>
     <div style="margin-top: 120px;">
+        <a href="/users/register"><button>Register</button></a><br>
         <form action="/users/login" method="post" autocomplete="off">
             <h1>Login</h1>
             <% err?.forEach(element => { %>
@@ -52,7 +53,6 @@
                 <input type="text" id="username" name="username">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password">
-                <a href="/users/register"><button>Register</button></a><br>
             <button type="submit">Login</button>
         </form>
     </div>
