@@ -60,7 +60,7 @@ class UserController{
                     username
                 }
             })
-         
+            
             if (user) {
                 const validPassword = bcrypt.compareSync(password, user.password)
                 if (validPassword) {
@@ -83,11 +83,11 @@ class UserController{
     }
 
     static async home(req, res){
-     try {
+        try {
         res.render('home')
-     } catch (error) {
+        } catch (error) {
         res.send(error)
-     }
+        }
     }
     static async logOut(req, res){
         try {
@@ -95,6 +95,7 @@ class UserController{
                 if (err) {
                     console.log(err);
                 } else {
+                    console.log('Log Out Success');
                     res.redirect('/users/login')
                 }
             })
@@ -102,6 +103,7 @@ class UserController{
             res.send(error)
         }
     }
+
 }
 
 module.exports = UserController
