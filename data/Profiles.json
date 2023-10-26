@@ -5,5 +5,12 @@
         "address": "BSD Tangerang No.5",
         "bio": "Love life!",
         "birthDate": "2003-03-25"
+    },
+    {
+        "fullName": "wrg",
+        "phoneNumber": "12345678",
+        "address": "Bg No.3",
+        "bio": "Lol",
+        "birthDate": "2000-03-25"
     }
 ]

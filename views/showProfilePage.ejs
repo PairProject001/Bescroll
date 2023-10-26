@@ -6,8 +6,64 @@
     <title>Document</title>
 </head>
 <body>
-    <%=JSON.stringify(userData)%>
-    <%=JSON.stringify(profileData)%>
-    <%=JSON.stringify(postAndHashtag)%>
+    <h3>BESCROLL</h3>
+    <a href=""><button>Explore Page</button></a>
+    <a href=""><button>My Profile Page</button></a>
+    <a href=""><button>Edit Profile</button></a>
+
+
+    <h1>Username: <%= userData.username %></h1>
+    <p><b>Full Name: <%=profileData.fullName%></b></p>
+    <p>Bio: <%=profileData.bio%></p>
+
+    <hr>
+
+
+    <% if (postAndHashtag.length === 0) { %>
+        <h1>NO POST YET</h1>
+        <a href="/users/<%= userData.id %>/addPost"><button>ADD POST</button></a>
+    <% } else { %>
+        <a href="/users/<%= userData.id %>/addPost"><button>ADD POST</button></a>
+
+        <% postAndHashtag.forEach( (el) => { %>
+            <table border="1">
+                <tr>
+                    <td>Username: <%= userData.username %></td>
+                </tr>
+                <tr>
+                    <td><img src="<%= el.imgUrl %>" alt="Picture"></td>
+                </tr>
+                <tr>
+                    <td>Title of posts: <%= el.title %></td>
+                </tr>
+                <tr>
+                    <td>Desc of picture: <%= el.content %></td>
+                </tr>
+                
+                <tr>
+                <% el.Hashtags.forEach ((each) => {%>
+                    <td><a href=""><button><%= each.name %></button></a></td>
+                <% }) %>
+                </tr>
+        
+                <tr>
+                <td>Date of post: <%= changeToRupiahForm(el.dateOfPost) %></td>
+                </tr>
+
+                <tr>
+                    <td>
+                    <a href="/users/<%= userData.id %>/addPost"><button>EDIT POSTS</button></a>
+                    <a href="/users/<%= userData.id %>/addPost"><button>DELETE POSTS</button></a>
+                    </td>
+                </tr>
+            </table>
+            <br><br><br>
+        <% }) %>
+        
+
+    <% } %>
+
+
+
 </body>
 </html>

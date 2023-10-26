@@ -2,5 +2,17 @@
     {
         "PostId": "1",
         "HashtagId": "1"
+    },
+    {
+        "PostId": "1",
+        "HashtagId": "2"
+    },
+    {
+        "PostId": "2",
+        "HashtagId": "1"
+    },
+    {
+        "PostId": "2",
+        "HashtagId": "2"
     }
 ]
