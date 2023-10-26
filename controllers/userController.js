@@ -87,6 +87,19 @@ class UserController{
             res.send(error.message)
         }
     }
+    static async logOut(req, res){
+        try {
+            req.session.destroy((err) =>{
+                if (err) {
+                    console.log(err);
+                }else{
+                    res.redirect('/users/login')
+                }
+              })
+        } catch (error) {
+            res.send(error)
+        }
+    }
     
     static async showProfilePage(req, res){
         try {
@@ -112,17 +125,21 @@ class UserController{
     }
     static async formEditProfile(req, res){
         try {
+            let { err } = req.query
+            if (err) {
+                err = err.split(',')
+            }
             const {userId} = req.session
             // console.log(userId);
             const data = await Profile.findByPk(userId)
-            res.render('formEditProfile', {userId, data})
+            res.render('formEditProfile', {userId, data, err})
         } catch (error) {
             res.send(error.message)   
         }
     }
     static async editProfile(req, res){
+        const {userId} = req.session
         try {
-            const {userId} = req.session
             const {fullName, phoneNumber, address, bio, birthDate} = req.body
             await Profile.update({
                 fullName,
@@ -137,7 +154,16 @@ class UserController{
             })
             res.redirect(`/users/${userId}/showProfilePage`)
         } catch (error) {
-            res.send(error.message)   
+            // res.send(error)
+            if (error.name === "SequelizeValidationError") {
+                let err = error.errors.map((el)=>{
+                    return el.message
+                })
+                // res.send(err)
+                res.redirect(`/users/${userId}/editProfile?err=${err}`)
+            }else{
+                res.send(error)
+            }
         }
     }
 }
