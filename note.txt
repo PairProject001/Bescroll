@@ -1,0 +1,7 @@
+npx sequelize-cli seed:generate --name seedProfiles
+
+npx sequelize-cli seed:generate --name seedUsers
+
+npx sequelize-cli seed:generate --name seedPosts
+
+npx sequelize-cli seed:generate --name seedHashtags

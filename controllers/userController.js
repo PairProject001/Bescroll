@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Profile, Post, Hashtag, PostHashtag } = require('../models')
 
 
 class UserController{
@@ -26,6 +26,14 @@ class UserController{
                 password
             })
             res.redirect('/users')
+        } catch (error) {
+            res.send(error)
+        }
+    }
+
+    static async showProfilePage(req, res){
+        try {
+            res.sender('showProfilePage')
         } catch (error) {
             res.send(error)
         }
