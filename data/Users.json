@@ -1,0 +1,16 @@
+[
+    {
+        "username": "test",
+        "password": "test",
+        "role": "User",
+        "ProfileId": "1",
+        "following": "2"
+    },
+    {
+        "username": "tist",
+        "password": "tist",
+        "role": "User",
+        "ProfileId": "2",
+        "following": "3"
+    }
+]

@@ -9,8 +9,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userName: {
-        type: Sequelize.STRING
+      username: {
+        type: Sequelize.STRING,
+        unique: true
       },
       password: {
         type: Sequelize.STRING
@@ -19,7 +20,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       ProfileId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references : {
+          model : {
+            tableName : "Profiles"
+          },
+          key : 'id'
+        }
       },
       createdAt: {
         allowNull: false,
