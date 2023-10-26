@@ -1,8 +1,16 @@
-const express = require("express")
-
+const express = require('express')
 const app = express()
-const port = process.env.PORT || 3000
+const port = 3000
+const Router = require('./routers')
+// console.log(app);
+
+
+app.set('view engine', 'ejs')
+
+app.use(express.urlencoded({extended : true}))
+
+app.use(Router)
 
 app.listen(port, () => {
-    console.log("apa kek gitu", port)
+    console.log(`Gojo ${port} Power`);
 })
