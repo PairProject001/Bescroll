@@ -1,5 +1,7 @@
+const changeToRupiahForm = require('../helpers/changeDate');
 const { User, Profile, Post, Hashtag, PostHashtag } = require('../models')
 const bcrypt = require('bcryptjs');
+
 
 class UserController{
     static async dataUsers(req, res){
@@ -70,7 +72,7 @@ class UserController{
                     req.session.role = user.role
                     req.session.username = user.username
                  
-                    res.redirect(`/users/${user.id}/showProfilePage`)
+                    res.redirect(`/users/${req.session.userId}/showProfilePage`)
                 } else {
                     const err = "Invalid Username Or Password"
                     res.redirect(`/users/login?err=${err}`)
@@ -94,27 +96,22 @@ class UserController{
     
         static async showProfilePage(req, res){
             try {
-                const {UserId} = req.params
+                const {userId} = req.session
                 //TAKE DATA FROM USER TABLE
                 const userData = await User.findOne({
-                    where: {id: UserId},
+                    where: {id: userId}
                 })
-                console.log("masuk");
                 //TAKE DATA FROM PROFILE TABLE
-                const {ProfileId} = userAndPostData
                 const profileData = await Profile.findOne({
-                    where: {id: ProfileId}
+                    where: {id: userData.ProfileId}
                 })
                 //TAKE DATA FROM POST AND HASHTAG TABLE
-                const postAndHashtag = await Post.findOne({
-                    where: {UserId: UserId},
-                    include: {
-                        model: PostHashtag,
-                        include: Hashtag
-                    }
+                const postAndHashtag = await Post.findAll({
+                    where: {UserId: userId},
+                    include: { model: Hashtag }
                 })
-                res.send(userData)
-                //res.render('showProfilePage', {userData, profileData, postAndHashtag})
+
+                res.render('showProfilePage', {userData, profileData, postAndHashtag, changeToRupiahForm})
             } catch (error) {
                 res.send(error)
             }

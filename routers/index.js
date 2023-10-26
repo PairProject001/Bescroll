@@ -19,7 +19,7 @@ Router.use((req, res, next) => {
         console.log("Login Success")
         next()        
     }
-  })
+})
 
   
   Router.get('/', UserController.home)
