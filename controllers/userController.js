@@ -68,7 +68,6 @@ class UserController{
                     req.session.userId = user.id
                     req.session.role = user.role
                     req.session.username = user.username
-                 
                     res.redirect('/')
                 } else {
                     const err = "Invalid Username Or Password"
@@ -89,6 +88,19 @@ class UserController{
      } catch (error) {
         res.send(error)
      }
+    }
+    static async logOut(req, res){
+        try {
+            req.session.destroy((err)=>{
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.redirect('/users/login')
+                }
+            })
+        } catch (error) {
+            res.send(error)
+        }
     }
 }
 
