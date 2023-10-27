@@ -9,10 +9,10 @@ const Router =  express.Router()
 
 
 Router.use('/users', User)
-
+Router.get('/', UserController.formRegister)
 
 Router.use((req, res, next) => {
-    console.log(req.session.userId);
+    // console.log(req.session.userId);
     if (!req.session.userId) {
         const err = "Please Login First"
         res.redirect(`/users/login?err=${err}`)
@@ -23,7 +23,6 @@ Router.use((req, res, next) => {
 })
 
   
-  Router.get('/', UserController.home)
   
   let isAdmin = function(req, res, next){
     // console.log();

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Edit Profile</title>
     <style>
         body {
             font-family: MS Sans Serif;
@@ -13,13 +13,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 75vh;
+            height: 80vh;
         }
         form {
             display: flex;
             flex-direction: column;
             max-width: 300px;
-            padding: 30px 100px;
+            padding: 30px 120px;
             border: 1px solid #ccc;
             border-radius: 5px;
             background-color: #ffffff;
@@ -54,18 +54,36 @@
 </head>
 <body>
     <div style="margin-top: 120px;">
-        <form action="/users/login" method="post" autocomplete="off">
-            <h1>Bescroll</h1>
-            <% err?.forEach(element => { %>
-                <p style="color: red;"><%= element %></p>
-            <% }); %>
-            <label for="username">User Name</label>
-            <input type="text" id="username" name="username">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
-            <button type="submit">Login</button>
+        <form action="/users/<%= userId %>/editProfile" method="post" autocomplete="off">
+            
+            <h3>BESCROLL</h3>
+            <a href="/posts/explorePage"><button>Explore Page</button></a>
+            <a href="/users/<%= userId %>/showProfilePage"><button>My Profile Page</button></a>
+            <h1>Add New Posts</h1>
+            
+            <h1>Profile</h1>
+            <div class="id">
+                <% err?.forEach(el => { %>
+                    <h6 style=" color: red;"><%= el %></h6>
+                <% }); %>
+            </div>
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" value="<%= data.fullName %>">
+
+            <label for="phoneNumber">Phone Number</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" value="<%= data.phoneNumber %>">
+
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" value="<%= data.address %>">
+
+            <label for="bio">Bio</label>
+            <input type="text" id="bio" name="bio" value="<%= data.bio %>">
+
+            <label for="birthDate">Birth Date</label>
+            <input type="date" id="birthDate" name="birthDate" value="<%= data.formattedDate() %>">
+
+            <button type="submit">Update</button>
         </form>
-        <a href="/users/register"><button>Register</button></a>
     </div>
 </body>
 </html>

@@ -3,8 +3,8 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    return queryInterface.addColumn('Users', 'following', {
-      type: Sequelize.DataTypes.INTEGER
+    return queryInterface.addColumn('Hashtags', 'name', {
+      type: Sequelize.DataTypes.STRING
     });
     /**
      * Add altering commands here.
@@ -15,7 +15,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.removeColumn('Users', 'following');
+    await queryInterface.removeColumn('Hashtags', 'name');
     /**
      * Add reverting commands here.
      *

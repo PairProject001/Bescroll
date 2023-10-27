@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>BESCROLL</h3>
+    <a href="/posts/explorePage"><button>Explore Page</button></a>
+    <a href="/users/<%= userId %>/showProfilePage"><button>My Profile Page</button></a>
+    <h1><%= data[0].name %></h1>
+
+    <% data[0].Posts.forEach( (el) => { %>
+        <table border="1">
+            <tr>
+                <td>Username: <%= usern.username %></td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="<%= el.imgUrl %>" alt="Picture">
+                </td>
+            </tr>
+            <tr>
+                <td>Title of posts: <%= el.title %></td>
+            </tr>
+            <tr>
+                <td>Desc of picture: <%= el.content %></td>
+            </tr>
+            
+    
+            <tr>
+            <td>Date of post: <%= changeDate(el.dateOfPost) %></td>
+            </tr>
+        </table>
+        <br><br><br>
+    <% }) %>
+</body>
+</html>

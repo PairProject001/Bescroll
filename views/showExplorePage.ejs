@@ -8,27 +8,16 @@
 <body>
     <h3>BESCROLL</h3>
     <a href="/posts/explorePage"><button>Explore Page</button></a>
-    <a href="/users/<%= userData.id %>/showProfilePage"><button>My Profile Page</button></a>
+    <a href="/users/<%= userId %>/showProfilePage"><button>My Profile Page</button></a>
     <a href="/users/<%= userId %>/editProfile"><button>Edit Profile</button></a>
-    <a href="/users/logOut"><button>Log Out</button></a>
 
-    <h1>Username: <%= userData.username %></h1>
-    <p><b>Full Name: <%=profileData.fullName%></b></p>
-    <p>Bio: <%=profileData.bio%></p>
-
-    <hr>
-
-
-    <% if (postAndHashtag.length === 0) { %>
-        <h1>NO POST YET</h1>
-        <a href="/posts/<%= userData.id %>/addPosts"><button>ADD POST</button></a>
+    <% if (postHashtagUser.length === 0) { %>
+        <h1>NO POST FROM ALL USER</h1>
     <% } else { %>
-        <a href="/posts/<%= userData.id %>/addPosts"><button>ADD POST</button></a><br><br>
-
-        <% postAndHashtag.forEach( (el) => { %>
+        <% postHashtagUser.forEach( (el) => { %>
             <table border="1">
                 <tr>
-                    <td>Username: <%= userData.username %></td>
+                    <td>Username: <%= el.User.username %></td>
                 </tr>
                 <tr>
                     <td><img src="<%= el.imgUrl %>" alt="Picture"></td>
@@ -54,13 +43,6 @@
                 <tr>
                 <td>Date of post: <%= changeDate(el.dateOfPost) %></td>
                 </tr>
-
-                <tr>
-                    <td>
-                    <a href="/posts/<%= userData.id %>/<%= el.id%>/editPosts"><button>EDIT POSTS</button></a>
-                    <a href="/posts/<%= userData.id %>/<%= el.id%>/deletePost"><button>DELETE POSTS</button></a>
-                    </td>
-                </tr>
             </table>
             <br><br><br>
         <% }) %>
@@ -69,6 +51,5 @@
     <% } %>
 
     
-
 </body>
 </html>

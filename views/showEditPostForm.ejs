@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>BESCROLL</h3>
+    <a href="/posts/explorePage"><button>Explore Page</button></a>
+    <a href="/users/<%= userId %>/showProfilePage"><button>My Profile Page</button></a>
+    <h1>Edit Posts</h1>
+
+    <form action="/posts/<%= userId %>/<%= postAndHashtag.id%>/editPosts" method="post">
+        <label for="imgUrl">Image</label><br>
+        <input type="text" id="imgUrl" name="imgUrl" value="<%=postAndHashtag.imgUrl%>"><br><br>
+
+        <label for="title">Title</label><br>
+        <input type="text" id="title" name="title" value="<%=postAndHashtag.title%>"><br><br>
+
+        <label for="content">Content</label><br>
+        <input type="text" id="content" name="content" value="<%=postAndHashtag.content%>" ><br><br>
+
+        <label>Hashtag</label><br>
+        <input type="checkbox"  name="Hashtag" value="1" 
+        <% if (Array.isArray(postAndHashtag.Hashtags)){ %>
+            <% postAndHashtag.Hashtags.forEach( (el) => { %>
+                <%=el.name === "#holiday" ? 'checked' : '' %>
+            <% }) %>
+        <% } else { %>
+            <%= postAndHashtag.Hashtags === "#holiday" ? 'checked' : '' %>
+        <% } %>
+        ><label>#holiday</label>
+
+        <input type="checkbox" name="Hashtag" value="2" 
+        <% if (Array.isArray(postAndHashtag.Hashtags)){ %>
+            <% postAndHashtag.Hashtags.forEach( (el) => { %>
+                <%=el.name === "#great" ? 'checked' : '' %>
+            <% }) %>
+        <% } else { %>
+            <%= postAndHashtag.Hashtags === "#great" ? 'checked' : '' %>
+        <% } %>
+        ><label>#great</label>
+
+        <input type="checkbox"  name="Hashtag" value="3"
+        <% if (Array.isArray(postAndHashtag.Hashtags)){ %>
+            <% postAndHashtag.Hashtags.forEach( (el) => { %>
+                <%=el.name === "#good" ? 'checked' : '' %>
+            <% }) %>
+        <% } else { %>
+            <%= postAndHashtag.Hashtags === "#good" ? 'checked' : '' %>
+        <% } %>
+        ><label>#good</label>
+        <br><br>
+
+        <label for="dateOfPost">Date Of Post</label>
+        <input type="date" id="dateOfPost" name="dateOfPost" value="<%= postAndHashtag.date%>">
+        <br><br>
+
+        <a href=""><button>Edit Post</button></a>
+    </form>
+</body>
+</html>

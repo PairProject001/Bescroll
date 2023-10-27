@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User)
       this.belongsToMany(models.Hashtag, { through: models.PostHashtag })
     }
+
+    get date() {
+      return this.dateOfPost.toISOString().split('T', 1)[0]
+    }
+
   }
   Post.init({
     title: DataTypes.STRING,

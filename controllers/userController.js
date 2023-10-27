@@ -1,23 +1,16 @@
-const changeToRupiahForm = require('../helpers/changeDate');
+const changeDate = require('../helpers/changeDate');
 const { User, Profile, Post, Hashtag, PostHashtag } = require('../models')
 const bcrypt = require('bcryptjs');
 
 
 class UserController{
-    static async dataUsers(req, res){
-        try {
-            const data = await User.findAll({
-                include : Profile
-            })
-            // console.log(data);
-            res.render('dataUsers', {data})
-        } catch (error) {
-            res.send(error)
-        }
-    }
     static async formRegister(req, res){
         try {
-            res.render('formRegister')
+            let err = req.query.err
+            if (err) {
+                err = err.split(',')
+            }
+            res.render('formRegister', {err})
         } catch (error) {
             res.send(error)
         }
@@ -38,7 +31,16 @@ class UserController{
             })
             res.redirect('/users/login')
         } catch (error) {
-            res.send(error.message)
+            // res.send(error)
+            if (error.name === "SequelizeValidationError") {
+                let err = error.errors.map((el)=>{
+                    return el.message
+                })
+                // res.send(err)
+                res.redirect(`/users/register?err=${err}`)
+            }else{
+                res.send(error)
+            }
         }
     }
     
@@ -71,7 +73,7 @@ class UserController{
                     req.session.userId = user.id
                     req.session.role = user.role
                     req.session.username = user.username
-                 
+                    
                     res.redirect(`/users/${req.session.userId}/showProfilePage`)
                 } else {
                     const err = "Invalid Username Or Password"
@@ -85,10 +87,15 @@ class UserController{
             res.send(error.message)
         }
     }
-    
-    static async home(req, res){
+    static async logOut(req, res){
         try {
-            res.render('home')
+            req.session.destroy((err) =>{
+                if (err) {
+                    console.log(err);
+                }else{
+                    res.redirect('/users/login')
+                }
+            })
         } catch (error) {
             res.send(error)
         }
@@ -113,10 +120,53 @@ class UserController{
                     attributes: ['name']
                 }
             })
-            res.render('showProfilePage', {userData, profileData, postAndHashtag, changeToRupiahForm})
+            res.render('showProfilePage', {userData, profileData, postAndHashtag, changeDate, userId})
         } catch (error) {
-            console.log(error);
             res.send(error)
+        }
+    }
+    
+    static async formEditProfile(req, res){
+        try {
+            let { err } = req.query
+            if (err) {
+                err = err.split(',')
+            }
+            const {userId} = req.session
+            // console.log(userId);
+            const data = await Profile.findByPk(userId)
+            res.render('formEditProfile', {userId, data, err})
+        } catch (error) {
+            res.send(error.message)   
+        }
+    }
+    static async editProfile(req, res){
+        const {userId} = req.session
+        try {
+            const {fullName, phoneNumber, address, bio, birthDate} = req.body
+            await Profile.update({
+                fullName,
+                phoneNumber,
+                address,
+                bio,
+                birthDate
+            },{
+                where : {
+                    id : +userId
+                }
+            })
+            res.redirect(`/users/${userId}/showProfilePage`)
+        } catch (error) {
+            // res.send(error)
+            if (error.name === "SequelizeValidationError") {
+                let err = error.errors.map((el)=>{
+                    return el.message
+                })
+                // res.send(err)
+                res.redirect(`/users/${userId}/editProfile?err=${err}`)
+            }else{
+                res.send(error)
+            }
         }
     }
 }

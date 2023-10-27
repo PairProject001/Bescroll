@@ -5,3 +5,26 @@ npx sequelize-cli seed:generate --name seedUsers
 npx sequelize-cli seed:generate --name seedPosts
 
 npx sequelize-cli seed:generate --name seedHashtags
+
+npx sequelize-cli seed:generate --name seedPostHashtags
+
+
+ npx sequelize-cli migration:generate --name migration-skeleton
+
+1. delete add column file
+2. npx sequelize db:migrate:undo --name 20231026024634-create-post-hashtag.js
+npx sequelize db:migrate:undo --name 20231026024526-create-hashtag.js
+3.delete name from hashtag
+4.
+npx sequelize db:migrate --name 20231026024526-create-hashtag.js
+
+npx sequelize db:migrate --name 20231026024634-create-post-hashtag.js
+
+5.
+npx sequelize migration:generate —name add-column-name-on-Hashtags
+copas
+npx sequelize db:migrate --name .js
+
+6.check dbeaver
+
+7.make changes in model too (following, hashtag, post hashtag)
